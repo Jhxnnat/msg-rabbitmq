@@ -1,15 +1,16 @@
 # msg-rabbitmq
 
-sistema de gestión de logs de estaciones meteorológicas. 
+protoripo de sistema de gestión de logs de estaciones meteorológicas. 
 
-# Todo:
+# TODO:
 
 ### Productores de datos (Producers):
-- [ ] Servicio en Python que simule o reciba datos de estaciones (JSON).
-- [ ] Debe publicar a un exchange de RabbitMQ con mensajes durables.
+- [x] Servicio en Python que simule o reciba datos de estaciones (JSON).
+- [x] Debe publicar a un exchange de RabbitMQ con mensajes durables.
 
 ### Broker de mensajería:
-- [ ] Configuración de RabbitMQ con colas durables y bindings adecuados.
+- [x] Configuración de RabbitMQ con colas durables y bindings adecuados.
+- [ ] Posible Bug: el consumer se inicia antes del broker
 
 ### Consumidores (Consumers): 
 Microservicio en Python donde:
@@ -21,7 +22,7 @@ Microservicio en Python donde:
 - [ ] Manejar conexiones seguras y reconexiones automáticas.
 
 ### Docker y orquestación:
-- [ ] Contenedores para RabbitMQ, PostgreSQL, productores y consumidores.
+- [x] Contenedores para RabbitMQ, PostgreSQL, productores y consumidores.
 - [x] archivo docker-compose
 
 ### Logs y monitoreo:
