@@ -5,9 +5,9 @@ def generate_weather_data(station_id):
     return {
         "station_id": station_id,
         "timestamp": datetime.now().isoformat(),
-        "temperature": round(random.uniform(-10, 35), 2),
-        "humidity": random.randint(20, 100),
-        "wind_speed": round(random.uniform(0, 100), 2),
+        "temperature": round(random.uniform(-20, 60), 2),
+        "humidity": random.randint(-10, 100),
+        "wind_speed": round(random.uniform(-10, 100), 2),
         "rainfall": round(random.uniform(0, 50), 2)
     }
 

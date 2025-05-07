@@ -3,9 +3,9 @@ import psycopg2
 from psycopg2 import sql
 
 def validate_weather_data(data):
-    # Validar rangos de valores
-    if not (-50 <= data['temperature'] <= 60):
-        raise ValueError("Temperatura fuera de rango")
+    assert (-10 <= data['temperature'] <= 60), "Temperatura fuera de rango"
+    assert (data['wind_speed'] > 0), "Velocidad de viendo no puede ser menor que cero"
+    assert (data['humidity'] > 0), "Humedad no puede ser menor que cero"
 
 # def save_to_postgres(data, cursor):
 #     insert = sql.SQL("""
@@ -53,14 +53,15 @@ def main():
         port = 5672,
         credentials = credentials
     )
-    connection = pika.BlockingConnection(params)
-    channel = connection.channel()
-
-    channel.queue_declare(queue='weather_logs_queue', durable=True)
-    channel.basic_consume(queue='weather_logs_queue', on_message_callback=callback)
-    
-    print(" [*] Esperando mensajes. CTRL+C para salir")
-    channel.start_consuming()
+    try:
+        connection = pika.BlockingConnection(params)
+        channel = connection.channel()
+        channel.queue_declare(queue='weather_logs_queue', durable=True)
+        channel.basic_consume(queue='weather_logs_queue', on_message_callback=callback)
+        print(" [*] Esperando mensajes. CTRL+C para salir")
+        channel.start_consuming()
+    except Exception as e:
+        print("Error, No se puede hacer una connección al Broker")
 
 if __name__ == "__main__":
     try:

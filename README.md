@@ -10,7 +10,6 @@ protoripo de sistema de gestión de logs de estaciones meteorológicas.
 
 ### Broker de mensajería:
 - [x] Configuración de RabbitMQ con colas durables y bindings adecuados.
-- [ ] Posible Bug: el consumer se inicia antes del broker
 
 ### Consumidores (Consumers): 
 Microservicio en Python donde:
