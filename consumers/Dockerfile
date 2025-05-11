@@ -6,4 +6,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "log.py"]
+CMD ["python", "consumer.py"]
