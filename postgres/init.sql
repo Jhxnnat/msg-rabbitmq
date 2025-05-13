@@ -1,0 +1,10 @@
+CREATE TABLE weather_logs (
+    id SERIAL PRIMARY KEY,
+    station_id VARCHAR(50) NOT NULL,
+    time_stamp TIMESTAMP WITH TIME ZONE NOT NULL,
+    temperature DECIMAL(5,2) NOT NULL,
+    humidity INTEGER NOT NULL,
+    wind_speed DECIMAL(5,2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+

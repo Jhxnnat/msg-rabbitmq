@@ -13,12 +13,40 @@ class Consumer:
             print("Critic wind speed")
 
     #TODO: Log Database saving
+    def save_to_db(self, data, cursor):
+        insert = sql.SQL("""
+            INSERT INTO weather_logs (station_id, time_stamp, temperature, humidity, wind_speed)
+            VALUES (%s, %s, %s, %s, %s)
+        """)
+        cursor.execute(insert, (
+            data['station_id'],
+            data['time_stamp'],
+            data['temperature'],
+            data['humidity'],
+            data['wind_speed']
+        ))
+
     def callback(self, ch, method, properties, body):
         try:
             data = json.loads(body)
             self.validate_weather_thresholds(data)
             print(f" [y] received: {body}")
-            ch.basic_ack(delivery_tag=method.delivery_tag)
+
+            conn = psycopg2.connect(host='postgres',
+                        database='db', user='admin', password='adminpass')
+            cursor = conn.cursor()
+            self.save_to_db(data, cursor)
+
+            #TEST
+            # conn.commit()
+            # sql = "SELECT * FROM weather_logs ORDER BY time_stamp DESC LIMIT 4;"
+            # cursor.execute(sql)
+            # print(f" [db]: {cursor.fetchall()}")
+
+            conn.commit()
+            conn.close()
+
+
         except Exception as e:
             print(f"Error procesing menssaje: {e}")
 
@@ -47,7 +75,7 @@ class Consumer:
         try:
             channel.queue_declare(queue='weather_logs_queue', durable=True)
             channel.basic_consume(queue='weather_logs_queue', on_message_callback=self.callback)
-            print(" [*] Waiting Messages. CTRL+C to exit")
+            print(" [*] Waiting Messages")
             channel.start_consuming()
         except Exception as e:
             print("Error consuming")
@@ -58,7 +86,7 @@ if __name__ == "__main__":
     try:
         consumer.consume()
     except KeyboardInterrupt:
-        print("Interrumpido")
+        print("Interrumpt")
         try:
             sys.exit(0)
         except SystemExit:

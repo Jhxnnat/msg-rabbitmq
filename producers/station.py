@@ -9,6 +9,8 @@ class Station:
         self.humidity = 20 # %
 
         self.params = None
+        self.connection = None
+        self.channel = None
 
     # Just to see how weather changes over time
     def change_weather_values(self):
@@ -16,19 +18,18 @@ class Station:
         self.wind_speed += round(random.uniform(-1, 2), 2)
         self.humidity += round(random.uniform(1, 2), 2)
 
-    #NOTE: maybe fetch from real data
     def generate_weather_data(self):
         self.change_weather_values()
         return {
             "station_id": self.station_id,
-            "timestamp": datetime.now().isoformat(),
+            "time_stamp": datetime.now().isoformat(),
             "temperature": self.temperature,
             "humidity": self.humidity,
             "wind_speed": self.wind_speed
         }
 
 
-    def set_connection_params(self, username, password):
+    def init_connection(self, username, password):
         credentials = pika.PlainCredentials(
             username=username,
             password=password
@@ -39,14 +40,13 @@ class Station:
             credentials = credentials,
             virtual_host='/'
         )
+        self.connection = pika.BlockingConnection(self.params)
+        self.channel = self.connection.channel()
+        self.channel.queue_declare(queue='weather_logs_queue', durable=True)
 
     def publish_to_rabbitmq(self):
-        connection = pika.BlockingConnection(self.params)
-        channel = connection.channel()
-        channel.queue_declare(queue='weather_logs_queue', durable=True)
-        
         data = self.generate_weather_data()
-        channel.basic_publish(
+        self.channel.basic_publish(
             exchange='',
             routing_key='weather_logs_queue',
             body=json.dumps(data),
@@ -54,11 +54,24 @@ class Station:
                 delivery_mode=pika.DeliveryMode.Persistent
             )
         )
-        print(" [x] send weather data")
-        connection.close()
         
 if __name__ == "__main__":
     station = Station("station_22")
-    station.set_connection_params(username='admin', password='adminpass')
-    station.publish_to_rabbitmq()
+    station.init_connection(username='admin', password='adminpass')
+    while True:
+        try:
+            station.publish_to_rabbitmq()
+            time.sleep(2)
+        except KeyboardInterrupt:
+            print("Interrumpt")
+            station.connection.close()
+            try:
+                sys.exit(0)
+            except SystemExit:
+                os._exit(0)
+    try:
+        station.connection.close()
+    except Exception as e:
+        print(f'error closing connection: {e}')
+
 

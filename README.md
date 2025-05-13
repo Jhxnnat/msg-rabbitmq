@@ -1,28 +1,17 @@
-# msg-rabbitmq
+# Sistema Mensajería
+Sistema de gestión de logs de estaciones meteorológicas con microservicios usando Docker.
 
-protoripo de sistema de gestión de logs de estaciones meteorológicas. 
+## Servicios
+RabbitMQ es el broker de mensajería para la comunicación entre los servicios, los datos de los registros se almacenan en una base de datos PostgreSQL.
+- El servicio *Producers*: genera y publica datos simulados de una estación meteorológica a RabbitMQ.
+- El servicio *Consumers*: obtiene los mensajes de la cola de RabbitMQ, los valida y almacena en la base de datos.
 
-# TODO:
+## Dependencias
+- Python 3.13+
+- Docker (con plugin docker-compose)
 
-### Productores de datos (Producers):
-- [x] Servicio en Python que simule o reciba datos de estaciones (JSON).
-- [x] Debe publicar a un exchange de RabbitMQ con mensajes durables.
+## Uso
+- Se nesecita docker y docker-compose instalados.
+- `docker-compose up --build`
+- El dashboard de RabbitMQ estará en localhost:15672. usuario: admin, contraseña: adminpass
 
-### Broker de mensajería:
-- [x] Configuración de RabbitMQ con colas durables y bindings adecuados.
-
-### Consumidores (Consumers): 
-Microservicio en Python donde:
-- [ ] Procesa los mensajes con ack manual.
-- [ ] Persiste en PostgreSQL (tabla weather_logs).
-- [ ] Valida rangos de valores y gestiona errores.
-
-### Base de datos:
-- [ ] Manejar conexiones seguras y reconexiones automáticas.
-
-### Docker y orquestación:
-- [x] Contenedores para RabbitMQ, PostgreSQL, productores y consumidores.
-- [x] archivo docker-compose
-
-### Logs y monitoreo:
-- [ ] Incluir registros de eventos en cada componente y métricas de rendimiento. 
