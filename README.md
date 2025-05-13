@@ -11,7 +11,6 @@ RabbitMQ es el broker de mensajería para la comunicación entre los servicios, 
 - Docker (con plugin docker-compose)
 
 ## Uso
-- Se nesecita docker y docker-compose instalados.
 - `docker-compose up --build`
 - El dashboard de RabbitMQ estará en localhost:15672. usuario: admin, contraseña: adminpass
 
