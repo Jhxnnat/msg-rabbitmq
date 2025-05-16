@@ -61,17 +61,18 @@ if __name__ == "__main__":
     while True:
         try:
             station.publish_to_rabbitmq()
-            time.sleep(2)
+            time.sleep(10)
         except KeyboardInterrupt:
-            print("Interrumpt")
+            print(" [y]: Interrumpt")
             station.connection.close()
             try:
                 sys.exit(0)
             except SystemExit:
                 os._exit(0)
+
     try:
         station.connection.close()
     except Exception as e:
-        print(f'error closing connection: {e}')
+        print(f'[y]: error closing connection: {e}')
 
 

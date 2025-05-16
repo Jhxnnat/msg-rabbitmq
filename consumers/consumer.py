@@ -12,7 +12,6 @@ class Consumer:
         if (data['wind_speed'] > 90):
             print("Critic wind speed")
 
-    #TODO: Log Database saving
     def save_to_db(self, data, cursor):
         insert = sql.SQL("""
             INSERT INTO weather_logs (station_id, time_stamp, temperature, humidity, wind_speed)
@@ -37,18 +36,11 @@ class Consumer:
             cursor = conn.cursor()
             self.save_to_db(data, cursor)
 
-            #TEST
-            # conn.commit()
-            # sql = "SELECT * FROM weather_logs ORDER BY time_stamp DESC LIMIT 4;"
-            # cursor.execute(sql)
-            # print(f" [db]: {cursor.fetchall()}")
-
             conn.commit()
             conn.close()
 
-
         except Exception as e:
-            print(f"Error procesing menssaje: {e}")
+            print(f"Error procesing message: {e}")
 
     def set_connection_params(self, username, password):
         credentials = pika.PlainCredentials(
@@ -60,7 +52,7 @@ class Consumer:
             port = 5672,
             credentials = credentials
         )
-
+    
     def consume(self):
         try:
             connection = pika.BlockingConnection(self.params)
@@ -81,6 +73,7 @@ class Consumer:
             print("Error consuming")
 
 if __name__ == "__main__":
+
     consumer = Consumer()
     consumer.set_connection_params(username='admin', password='adminpass')
     try:

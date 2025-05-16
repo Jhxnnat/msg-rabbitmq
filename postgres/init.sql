@@ -7,4 +7,3 @@ CREATE TABLE weather_logs (
     wind_speed DECIMAL(5,2) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-

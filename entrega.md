@@ -8,22 +8,22 @@ Debe entregar un prototipo funcional que contemple los siguientes elementos y co
 - [x] Debe publicar a un exchange de RabbitMQ con mensajes durables.
 
 ### Broker de mensajería:
-- [ ] Configuración de RabbitMQ con colas durables y bindings adecuados.
+- [x] Configuración de RabbitMQ con colas durables y bindings adecuados.
 - [x] Incluir dashboard de administración.
 
 ### Consumidores (Consumers): 
 Microservicio en Python que:
 - [ ] Procesa los mensajes con ack manual.
-- [ ] Persiste en PostgreSQL (tabla weather_logs).
+- [x] Persiste en PostgreSQL (tabla weather_logs).
 - [x] Valida rangos de valores y gestiona errores.
 
 ### Base de datos:
-- [ ] Definir esquema en PostgreSQL.
-- [ ] Manejar conexiones seguras y reconexiones automáticas.
+- [x] Definir esquema en PostgreSQL.
+- [x] Manejar conexiones seguras y reconexiones automáticas.
 
 ### Docker y orquestación:
-- [ ] Contenedores para RabbitMQ, PostgreSQL, productores y consumidores.
-- [ ] Archivo docker-compose.yml que garantice arranque ordenado y reinicios automáticos.
+- [x] Contenedores para RabbitMQ, PostgreSQL, productores y consumidores.
+- [x] Archivo docker-compose.yml que garantice arranque ordenado y reinicios automáticos.
 
 ### Logs y monitoreo:
 - [ ] Incluir registros de eventos en cada componente y métricas de rendimiento. 
@@ -31,10 +31,10 @@ Microservicio en Python que:
 
 ## Restricciones técnicas:
 
-- [ ] Python 3.13+ y librerías estables (pika, psycopg2).
-- [ ] Mensajes marcados como persistent para evitar pérdida.
+- [x] Python 3.13+ y librerías estables (pika, psycopg2).
+- [x] Mensajes marcados como persistent para evitar pérdida.
 - [ ] Consumo con prefetch_count=1 para procesamiento ordenado.
-- [ ] Bases de datos y colas deben ser stateful y persistentes en volúmenes Docker.
+- [x] Bases de datos y colas deben ser stateful y persistentes en volúmenes Docker.
 - [ ] Seguir buenas prácticas de código, documentación y manejo de excepciones.
 
 ## Posibles usos y extensiones:
