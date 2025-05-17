@@ -36,11 +36,11 @@ class Consumer:
             cursor = conn.cursor()
             self.save_to_db(data, cursor)
 
-	    #TEST Database
-            conn.commit()
-            sql = "SELECT * FROM weather_logs ORDER BY time_stamp DESC LIMIT 4;"
-            cursor.execute(sql)
-            print(f" [db]: {cursor.fetchall()}")
+            #Remove because docker-compose.yml (adminer)
+            #conn.commit()
+            #sql = "SELECT * FROM weather_logs ORDER BY time_stamp DESC LIMIT 4;"
+            #cursor.execute(sql)
+            #print(f" [db]: {cursor.fetchall()}")
 
             conn.commit()
             conn.close()
